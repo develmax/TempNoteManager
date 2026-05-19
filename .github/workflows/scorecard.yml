@@ -9,16 +9,15 @@ on:
   schedule:
     - cron: '5 4 * * 1'
 
-permissions:
-  contents: read
-  security-events: write
-  id-token: write
-
 jobs:
   scorecard:
     name: Scorecard analysis
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+      id-token: write
 
     steps:
       - name: Checkout
