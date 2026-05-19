@@ -51,7 +51,7 @@ jobs:
         run: |
           gh attestation download "dist/$ASSET_NAME" \
             --repo "$GITHUB_REPOSITORY"
-          BUNDLE_PATH="$(find . -maxdepth 1 -name 'sha256-*.jsonl' -print -quit)"
+          BUNDLE_PATH="$(find . -maxdepth 1 -type f -name '*.jsonl' -print -quit)"
           test -n "$BUNDLE_PATH"
           RELEASE_BUNDLE="dist/$ASSET_NAME.intoto.jsonl"
           cp "$BUNDLE_PATH" "$RELEASE_BUNDLE"
