@@ -1,0 +1,33 @@
+# Build output
+bin/
+obj/
+artifacts/
+publish/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET
+TestResults/
+*.nupkg
+*.snupkg
+project.assets.json
+project.nuget.cache
+
+# Logs and local diagnostics
+*.log
+*.dmp
+*.trace
+
+# Local backups generated while editing Notepad++ session files
+*.bak
+
+# OS files
+Thumbs.db
+Desktop.ini

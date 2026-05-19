@@ -1,0 +1,82 @@
+<Window x:Class="TempNoteManager.SuggestedCategoriesDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AI подсказки категорий"
+        Width="720"
+        Height="540"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="12" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="12" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Выберите категории, которые нужно создать"
+                   FontSize="16"
+                   FontWeight="SemiBold"
+                   Foreground="#1F2A36" />
+
+        <ListBox Grid.Row="2"
+                 ItemsSource="{Binding Suggestions}"
+                 BorderBrush="#D8DEE6"
+                 BorderThickness="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="10"
+                            BorderBrush="#E5EAF0"
+                            BorderThickness="0,0,0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="14" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox IsChecked="{Binding IsSelected}"
+                                      VerticalAlignment="Top"
+                                      Margin="0,3,0,0" />
+                            <Border Grid.Column="2"
+                                    Width="14"
+                                    Height="42"
+                                    Background="{Binding Color}" />
+                            <StackPanel Grid.Column="4">
+                                <TextBlock Text="{Binding Name}"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2A36" />
+                                <TextBlock Text="{Binding Description}"
+                                           Foreground="#455364"
+                                           TextWrapping="Wrap"
+                                           Margin="0,4,0,0" />
+                                <TextBlock Text="{Binding Reason}"
+                                           Foreground="#7C8796"
+                                           TextWrapping="Wrap"
+                                           Margin="0,4,0,0" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="4"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Закрыть"
+                    Width="92"
+                    Height="32"
+                    Margin="0,0,8,0"
+                    IsCancel="True" />
+            <Button Content="Создать выбранные"
+                    Width="142"
+                    Height="32"
+                    IsDefault="True"
+                    Click="Create_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

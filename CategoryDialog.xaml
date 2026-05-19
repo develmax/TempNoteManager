@@ -1,0 +1,120 @@
+<Window x:Class="TempNoteManager.CategoryDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Категория"
+        Width="560"
+        Height="430"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="12" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Название" Foreground="#59677A" Margin="0,0,0,4" />
+            <TextBox x:Name="NameBox"
+                     Height="32"
+                     Padding="8,4"
+                     TextChanged="CategoryText_Changed" />
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="6" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.ColumnSpan="8"
+                       Text="Цвет"
+                       Foreground="#59677A"
+                       Margin="0,0,0,4" />
+            <ComboBox x:Name="ColorBox"
+                      Grid.Row="2"
+                      Grid.Column="0"
+                      Height="32"
+                      SelectedIndex="0"
+                      SelectionChanged="ColorBox_SelectionChanged">
+                <ComboBoxItem Content="Синий" Tag="#2563EB" />
+                <ComboBoxItem Content="Зеленый" Tag="#059669" />
+                <ComboBoxItem Content="Бирюзовый" Tag="#0F766E" />
+                <ComboBoxItem Content="Оранжевый" Tag="#EA580C" />
+                <ComboBoxItem Content="Красный" Tag="#DC2626" />
+                <ComboBoxItem Content="Фиолетовый" Tag="#7C3AED" />
+                <ComboBoxItem Content="Серый" Tag="#4B5563" />
+            </ComboBox>
+            <TextBox x:Name="ColorHexBox"
+                     Grid.Row="2"
+                     Grid.Column="2"
+                     Height="32"
+                     Padding="8,4"
+                     VerticalContentAlignment="Center"
+                     TextChanged="ColorHexBox_TextChanged" />
+            <Border x:Name="ColorPreview"
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Width="42"
+                    Height="32"
+                    BorderBrush="#C9D0D8"
+                    BorderThickness="1" />
+            <Button Grid.Row="2"
+                    Grid.Column="6"
+                    Content="Авто"
+                    Height="32"
+                    Click="AutoColor_Click" />
+            <CheckBox x:Name="AutoColorBox"
+                      Grid.Row="2"
+                      Grid.Column="7"
+                      Content="по описанию"
+                      VerticalAlignment="Center"
+                      Margin="10,0,0,0"
+                      IsChecked="True"
+                      Checked="AutoColorMode_Changed"
+                      Unchecked="AutoColorMode_Changed" />
+        </Grid>
+
+        <StackPanel Grid.Row="4">
+            <TextBlock Text="Описание для AI" Foreground="#59677A" Margin="0,0,0,4" />
+            <TextBox x:Name="DescriptionBox"
+                     Height="150"
+                     Padding="8"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     TextChanged="CategoryText_Changed" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="6"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Отмена"
+                    Width="92"
+                    Height="32"
+                    Margin="0,0,8,0"
+                    IsCancel="True" />
+            <Button x:Name="OkButton"
+                    Content="Создать"
+                    Width="92"
+                    Height="32"
+                    IsDefault="True"
+                    Click="Ok_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
