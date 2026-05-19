@@ -1,5 +1,15 @@
 # Security Policy
 
+## Supported Versions
+
+Security fixes are provided for the latest public release and the current `main` branch.
+
+| Version | Supported |
+| ------- | --------- |
+| Latest release | Yes |
+| `main` | Yes |
+| Older releases | Best effort |
+
 ## Чувствительные данные
 
 TempNoteManager не должен хранить AI API key в репозитории или в `settings.json`.
@@ -17,6 +27,24 @@ TempNoteManager.AI.ApiKey
 - Содержимого личных заметок.
 - Копий `%APPDATA%\TempNoteManager\settings.json`.
 - Копий `%APPDATA%\TempNoteManager\ai-cache.json`, если в файлах были приватные данные.
+
+## Reporting a Vulnerability
+
+Please report security issues privately instead of opening a public issue.
+
+Recommended disclosure path:
+
+1. Email the repository owner at `develmax@gmail.com`.
+2. Include the affected version or commit, a short impact description, and reproduction steps.
+3. Do not attach real notes, AI keys, `settings.json`, or `ai-cache.json` if they contain private data.
+
+Expected response:
+
+- Initial acknowledgement: within 7 days.
+- Triage update: within 14 days.
+- Fix or mitigation plan: depends on severity and reproducibility.
+
+When a fix is ready, it will be published in the repository and, when appropriate, in a GitHub Release.
 
 ## Автоматические проверки
 
