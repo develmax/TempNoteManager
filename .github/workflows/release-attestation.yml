@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      contents: read
+      contents: write
       attestations: write
       id-token: write
 
@@ -42,3 +42,19 @@ jobs:
         uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
         with:
           subject-path: dist/${{ inputs.asset_name }}
+
+      - name: Attach in-toto attestation to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ inputs.tag_name }}
+          ASSET_NAME: ${{ inputs.asset_name }}
+        run: |
+          gh attestation download "dist/$ASSET_NAME" \
+            --repo "$GITHUB_REPOSITORY"
+          BUNDLE_PATH="$(find . -maxdepth 1 -name 'sha256-*.jsonl' -print -quit)"
+          test -n "$BUNDLE_PATH"
+          RELEASE_BUNDLE="dist/$ASSET_NAME.intoto.jsonl"
+          cp "$BUNDLE_PATH" "$RELEASE_BUNDLE"
+          gh release upload "$TAG_NAME" "$RELEASE_BUNDLE" \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber
