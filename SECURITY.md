@@ -54,6 +54,7 @@ When a fix is ready, it will be published in the repository and, when appropriat
 - Dependency Review для pull request с изменениями зависимостей.
 - OpenSSF Scorecard для оценки практик безопасности репозитория.
 - Dependabot для регулярного обновления NuGet-зависимостей и GitHub Actions.
+- GitHub Artifact Attestations для release artifacts.
 
 Эти проверки помогают поймать часть проблем автоматически, но не заменяют ручной review сценариев, которые двигают, переименовывают или удаляют реальные файлы пользователя.
 

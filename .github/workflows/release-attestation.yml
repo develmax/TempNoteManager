@@ -1,0 +1,44 @@
+name: Release Attestation
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: Release tag, for example v0.1.0
+        required: true
+        default: v0.1.0
+      asset_name:
+        description: Release asset file name
+        required: true
+        default: TempNoteManager-v0.1.0-win-x64.zip
+
+permissions: read-all
+
+jobs:
+  attest-release-asset:
+    name: Attest release asset
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Download release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ inputs.tag_name }}
+          ASSET_NAME: ${{ inputs.asset_name }}
+        run: |
+          mkdir -p dist
+          gh release download "$TAG_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "$ASSET_NAME" \
+            --dir dist
+          test -f "dist/$ASSET_NAME"
+
+      - name: Generate build provenance attestation
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: dist/${{ inputs.asset_name }}
