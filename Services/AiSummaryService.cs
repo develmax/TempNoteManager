@@ -154,7 +154,7 @@ public sealed class AiSummaryService
 
         if (string.IsNullOrWhiteSpace(settings.AiEndpoint))
         {
-            throw new InvalidOperationException("Не указан AI endpoint.");
+            throw new InvalidOperationException("Не указан адрес AI API.");
         }
 
         if (string.IsNullOrWhiteSpace(settings.AiModel))
@@ -166,7 +166,7 @@ public sealed class AiSummaryService
         var needsApiKey = !IsLocalEndpoint(uri);
         if (needsApiKey && string.IsNullOrWhiteSpace(settings.AiApiKey))
         {
-            throw new InvalidOperationException("AI не подключен: укажите API key или переменную OPENAI_API_KEY.");
+            throw new InvalidOperationException("AI не подключен: укажите AI-ключ или переменную OPENAI_API_KEY.");
         }
 
         using var httpRequest = new HttpRequestMessage(HttpMethod.Post, uri);

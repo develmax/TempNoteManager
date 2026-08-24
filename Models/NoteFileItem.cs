@@ -26,6 +26,10 @@ public sealed class NoteFileItem : INotifyPropertyChanged
     private string _categoryColor = string.Empty;
     private string _contentFingerprint = string.Empty;
     private bool _isSummaryLoading;
+    private bool _isLocked;
+    private bool _isFavorite;
+    private string _duplicateGroupKey = string.Empty;
+    private string _duplicateText = string.Empty;
 
     public string SessionKey { get; init; } = string.Empty;
 
@@ -208,6 +212,48 @@ public sealed class NoteFileItem : INotifyPropertyChanged
         set => SetField(ref _contentFingerprint, value);
     }
 
+    public bool IsLocked
+    {
+        get => _isLocked;
+        set
+        {
+            if (SetField(ref _isLocked, value))
+            {
+                OnPropertyChanged(nameof(FlagsText));
+            }
+        }
+    }
+
+    public bool IsFavorite
+    {
+        get => _isFavorite;
+        set
+        {
+            if (SetField(ref _isFavorite, value))
+            {
+                OnPropertyChanged(nameof(FlagsText));
+            }
+        }
+    }
+
+    public string DuplicateGroupKey
+    {
+        get => _duplicateGroupKey;
+        set => SetField(ref _duplicateGroupKey, value);
+    }
+
+    public string DuplicateText
+    {
+        get => _duplicateText;
+        set
+        {
+            if (SetField(ref _duplicateText, value))
+            {
+                OnPropertyChanged(nameof(IsDuplicate));
+            }
+        }
+    }
+
     public bool CanSaveAsPermanent => IsTemporary && Exists;
 
     public bool CanConvertToTemporary => !IsTemporary && Exists;
@@ -220,6 +266,28 @@ public sealed class NoteFileItem : INotifyPropertyChanged
 
     public string PrimaryTagColor => Tags.Count == 0 ? "#EEF2F7" : Tags[0].Color;
 
+    public bool IsDuplicate => !string.IsNullOrWhiteSpace(DuplicateGroupKey);
+
+    public string FlagsText
+    {
+        get
+        {
+            var flags = new List<string>();
+
+            if (IsLocked)
+            {
+                flags.Add("Блок");
+            }
+
+            if (IsFavorite)
+            {
+                flags.Add("★");
+            }
+
+            return string.Join(" ", flags);
+        }
+    }
+
     public string StatusText => Exists ? "Доступен" : "Файл не найден";
 
     public string StorageText
@@ -231,7 +299,7 @@ public sealed class NoteFileItem : INotifyPropertyChanged
                 return "Временный";
             }
 
-            return IsInTemporaryStorage ? "Постоянный + snapshot" : "Постоянный";
+            return IsInTemporaryStorage ? "Постоянный + снимок" : "Постоянный";
         }
     }
 
@@ -293,6 +361,9 @@ public sealed class NoteFileItem : INotifyPropertyChanged
         OnPropertyChanged(nameof(CategoryText));
         OnPropertyChanged(nameof(TagsText));
         OnPropertyChanged(nameof(PrimaryTagColor));
+        OnPropertyChanged(nameof(FlagsText));
+        OnPropertyChanged(nameof(IsDuplicate));
+        OnPropertyChanged(nameof(DuplicateText));
         OnPropertyChanged(nameof(CanSaveAsPermanent));
         OnPropertyChanged(nameof(CanConvertToTemporary));
     }

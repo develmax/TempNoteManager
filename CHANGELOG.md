@@ -2,16 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.2.0 - 2026-08-24
+
+- Вынесены пути, AI, корзина и корень категорий в отдельный диалог `Настройки`.
+- Дополнили русскую локализацию подписей, статусов и сообщений об отмене операций.
+- Добавлен журнал операций с отменой последнего снимка `session.xml` и обратимыми переносами, переименованиями и удалениями в пользовательскую корзину.
+- Добавлено групповое выделение в таблице/карточках и массовые операции удаления, переноса, блокировки, избранного и AI-классификации.
+- Добавлены локальные флаги `Блок` и `★`, которые хранятся по хэшу содержимого.
+- Добавлено определение дубликатов по отпечатку содержимого с отдельными фильтрами и колонками списка.
+- Добавлены фильтры для неразобранных, дубликатов и избранных файлов.
+- Добавлено подтверждение AI-классификации с количеством запросов, попаданий в кэш и примерным объемом токенов.
+- Добавлена настройка автоматического AI-описания, чтобы не запускать AI при наведении/открытии без явного согласия.
+- Добавлено предупреждение, если Notepad++ запущен перед операциями, которые меняют файлы или `session.xml`.
+- Добавлены отчет внутри приложения и проверка последнего релиза на GitHub.
+
 ## 0.1.0 - 2026-05-19
 
-- Initial desktop WPF utility for managing files opened in Notepad++.
-- Added table and card views with preview/details panel.
-- Added temporary file detection, save-as-permanent flow and convert-to-temporary flow.
-- Added drag and drop ordering, up/down controls and `session.xml` order persistence.
-- Added file deletion to Windows Recycle Bin or custom trash folder.
-- Added storage categories backed by real directories.
-- Added category descriptions, custom colors and automatic color suggestion.
-- Added file move, rename and preview flows inside categories.
-- Added optional AI summary, tags, category classification and missing-category suggestions.
-- Added AI cache keyed by file content and category version.
-- Added Windows Credential Manager storage for AI API keys.
+- Начальная настольная WPF-утилита для управления файлами, открытыми в Notepad++.
+- Добавлены табличный и карточный режимы с предпросмотром и правой панелью деталей.
+- Добавлено определение временных файлов, сохранение временного файла как постоянного и обратная конвертация в временный.
+- Добавлено перетаскивание для изменения порядка, кнопки вверх/вниз и запись порядка в `session.xml`.
+- Добавлено удаление файлов в корзину Windows или выбранную пользовательскую папку.
+- Добавлены хранилища-категории на базе реальных директорий.
+- Добавлены описания категорий, пользовательские цвета и автоматический подбор цвета.
+- Добавлены перенос, переименование и предпросмотр файлов внутри категорий.
+- Добавлены опциональные AI-описания, тэги, классификация по категориям и подсказки недостающих категорий.
+- Добавлен AI-кэш по содержимому файла и версии категорий.
+- Добавлено хранение AI-ключей в Windows Credential Manager.

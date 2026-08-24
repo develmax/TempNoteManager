@@ -74,12 +74,12 @@ public sealed class NotepadPlusPlusSessionService
         }
     }
 
-    public async Task DeleteItemAsync(NoteFileItem item, TrashOptions options, CancellationToken cancellationToken = default)
+    public async Task<string?> DeleteItemAsync(NoteFileItem item, TrashOptions options, CancellationToken cancellationToken = default)
     {
         if (!File.Exists(item.ContentPath))
         {
             RemoveFromSession(item);
-            return;
+            return null;
         }
 
         if (options.UseCustomFolder)
@@ -92,6 +92,8 @@ public sealed class NotepadPlusPlusSessionService
             Directory.CreateDirectory(options.CustomFolderPath);
             var targetPath = GetUniquePath(options.CustomFolderPath, BuildSafeFileName(item.DisplayName, item.ContentPath));
             await MoveFileAsync(item.ContentPath, targetPath, cancellationToken);
+            RemoveFromSession(item);
+            return targetPath;
         }
         else
         {
@@ -102,6 +104,7 @@ public sealed class NotepadPlusPlusSessionService
         }
 
         RemoveFromSession(item);
+        return null;
     }
 
     public async Task<string> MoveItemToDirectoryAsync(NoteFileItem item, string targetDirectory, CancellationToken cancellationToken = default)

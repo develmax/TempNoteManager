@@ -8,6 +8,8 @@ public sealed class AppSettings
 
     public bool AiEnabled { get; set; }
 
+    public bool AiAutoSummary { get; set; } = true;
+
     public string AiEndpoint { get; set; } = "https://api.openai.com/v1/chat/completions";
 
     public string AiModel { get; set; } = "gpt-4.1-mini";

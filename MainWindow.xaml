@@ -9,7 +9,8 @@
         Height="820"
         MinWidth="1120"
         MinHeight="680"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
 
@@ -29,6 +30,19 @@
             <Setter Property="Width" Value="34" />
             <Setter Property="Padding" Value="0" />
         </Style>
+
+        <Style x:Key="HeaderButtonStyle" TargetType="Button" BasedOn="{StaticResource ToolbarButtonStyle}">
+            <Setter Property="MinWidth" Value="76" />
+            <Setter Property="Padding" Value="10,0" />
+            <Setter Property="Margin" Value="0,0,6,6" />
+        </Style>
+
+        <Style x:Key="HeaderIconButtonStyle" TargetType="Button" BasedOn="{StaticResource TinyButtonStyle}">
+            <Setter Property="Margin" Value="0,0,6,6" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+        </Style>
+
 
         <Style x:Key="InputStyle" TargetType="TextBox">
             <Setter Property="Height" Value="32" />
@@ -189,163 +203,109 @@
                 Background="#FFFFFF"
                 BorderBrush="#D9DEE5"
                 BorderThickness="0,0,0,1"
-                Padding="12">
+                Padding="12,12,18,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="8" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="8" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <DockPanel Grid.Row="0" LastChildFill="True">
-                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                        <Button Content="Обновить"
-                                Style="{StaticResource ToolbarButtonStyle}"
-                                Click="Refresh_Click" />
-                        <Button Content="Удалить"
-                                Style="{StaticResource ToolbarButtonStyle}"
-                                Click="DeleteSelected_Click" />
-                        <Button Content="Переим."
-                                Style="{StaticResource ToolbarButtonStyle}"
-                                Click="RenameSelected_Click" />
-                        <Button Content="↑"
-                                Style="{StaticResource TinyButtonStyle}"
-                                ToolTip="Поднять выбранный файл"
-                                Click="MoveSelectedUp_Click" />
-                        <Button Content="↓"
-                                Style="{StaticResource TinyButtonStyle}"
-                                ToolTip="Опустить выбранный файл"
-                                Click="MoveSelectedDown_Click" />
-                        <Button Content="Экспорт temp"
-                                Style="{StaticResource ToolbarButtonStyle}"
-                                MinWidth="112"
-                                Click="ExportTemporary_Click" />
-                        <Button Content="AI тэги"
-                                Style="{StaticResource ToolbarButtonStyle}"
-                                Click="AnalyzeVisibleWithAi_Click" />
-                        <Button Content="AI категории"
-                                Style="{StaticResource ToolbarButtonStyle}"
-                                MinWidth="112"
-                                Click="SuggestCategoriesWithAi_Click" />
-                        <Button Content="Порядок"
-                                Style="{StaticResource ToolbarButtonStyle}"
-                                Click="SaveOrder_Click" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Temp Note Manager"
-                                   FontSize="20"
-                                   FontWeight="SemiBold"
-                                   Foreground="#1E2A36"
-                                   VerticalAlignment="Center" />
-                        <TextBlock x:Name="StatusTextBlock"
-                                   Margin="18,0,0,0"
-                                   Foreground="#697789"
-                                   VerticalAlignment="Center"
-                                   Text="Готово" />
-                    </StackPanel>
-                </DockPanel>
-
-                <Grid Grid.Row="2">
+                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="78" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="34" />
-                        <ColumnDefinition Width="12" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="1.35*" />
-                        <ColumnDefinition Width="160" />
-                        <ColumnDefinition Width="210" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0"
-                               Text="session"
-                               VerticalAlignment="Center"
-                               Foreground="#59677A" />
-                    <TextBox x:Name="SessionPathBox"
-                             Grid.Column="1"
-                             Style="{StaticResource InputStyle}" />
-                    <Button Grid.Column="2"
-                            Content="..."
-                            Style="{StaticResource TinyButtonStyle}"
-                            ToolTip="Выбрать session.xml"
-                            Click="BrowseSession_Click" />
-
-                    <CheckBox x:Name="AiEnabledBox"
-                              Grid.Column="4"
-                              Content="AI"
-                              VerticalAlignment="Center"
-                              Margin="0,0,8,0" />
-                    <TextBox x:Name="AiEndpointBox"
-                             Grid.Column="5"
-                             Style="{StaticResource InputStyle}"
-                             Margin="0,0,8,0" />
-                    <TextBox x:Name="AiModelBox"
-                             Grid.Column="6"
-                             Style="{StaticResource InputStyle}"
-                             Margin="0,0,8,0" />
-                    <PasswordBox x:Name="AiKeyBox"
-                                 Grid.Column="7"
-                                 Height="32"
-                                 Padding="8,4"
-                                 BorderBrush="#C9D0D8"
-                                 BorderThickness="1"
-                                 VerticalContentAlignment="Center"
-                                 Margin="0,0,8,0" />
-                    <Button Grid.Column="8"
-                            Content="Сохранить"
-                            Style="{StaticResource ToolbarButtonStyle}"
-                            Click="SaveSettings_Click" />
-                </Grid>
-
-                <Grid Grid.Row="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="78" />
-                        <ColumnDefinition Width="170" />
-                        <ColumnDefinition Width="1.2*" />
-                        <ColumnDefinition Width="34" />
                         <ColumnDefinition Width="18" />
-                        <ColumnDefinition Width="112" />
-                        <ColumnDefinition Width="1.4*" />
-                        <ColumnDefinition Width="34" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0"
-                               Text="корзина"
+                    <TextBlock Text="Temp Note Manager"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="#1E2A36"
+                               VerticalAlignment="Center" />
+                    <TextBlock x:Name="StatusTextBlock"
+                               Grid.Column="2"
+                               Foreground="#697789"
                                VerticalAlignment="Center"
-                               Foreground="#59677A" />
-                    <ComboBox x:Name="TrashModeBox"
-                              Grid.Column="1"
-                              Height="32"
-                              SelectedIndex="0">
-                        <ComboBoxItem Content="Windows" Tag="RecycleBin" />
-                        <ComboBoxItem Content="Папка" Tag="CustomFolder" />
-                    </ComboBox>
-                    <TextBox x:Name="TrashFolderBox"
-                             Grid.Column="2"
-                             Style="{StaticResource InputStyle}"
-                             Margin="8,0,0,0" />
-                    <Button Grid.Column="3"
-                            Content="..."
-                            Style="{StaticResource TinyButtonStyle}"
-                            ToolTip="Выбрать папку корзины"
-                            Click="BrowseTrash_Click" />
-
-                    <TextBlock Grid.Column="5"
-                               Text="категории"
-                               VerticalAlignment="Center"
-                               Foreground="#59677A" />
-                    <TextBox x:Name="CategoryRootBox"
-                             Grid.Column="6"
-                             Style="{StaticResource InputStyle}" />
-                    <Button Grid.Column="7"
-                            Content="..."
-                            Style="{StaticResource TinyButtonStyle}"
-                            ToolTip="Выбрать корневую папку категорий"
-                            Click="BrowseCategoryRoot_Click" />
+                               TextTrimming="CharacterEllipsis"
+                               Text="Готово" />
                 </Grid>
+
+                <WrapPanel Grid.Row="2" HorizontalAlignment="Left">
+                    <Button Content="↻ Обновить"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            ToolTip="Обновить список файлов"
+                            Click="Refresh_Click" />
+                    <Button Content="⚙ Настройки"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            MinWidth="104"
+                            ToolTip="Открыть настройки приложения"
+                            Click="Settings_Click" />
+                    <Button Content="↶"
+                            Style="{StaticResource HeaderIconButtonStyle}"
+                            ToolTip="Отменить последнюю операцию"
+                            Click="UndoLast_Click" />
+                    <Button Content="Удалить"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            ToolTip="Удалить выбранные файлы"
+                            Click="DeleteSelected_Click" />
+                    <Button Content="✎"
+                            Style="{StaticResource HeaderIconButtonStyle}"
+                            ToolTip="Переименовать выбранный файл"
+                            Click="RenameSelected_Click" />
+                    <Button Content="→ В катег."
+                            Style="{StaticResource HeaderButtonStyle}"
+                            MinWidth="92"
+                            ToolTip="Переместить выбранные файлы в категорию"
+                            Click="MoveSelectedToCategory_Click" />
+                    <Button Content="Блок"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            MinWidth="62"
+                            ToolTip="Заблокировать или разблокировать выбранные файлы"
+                            Click="ToggleLock_Click" />
+                    <Button Content="★"
+                            Style="{StaticResource HeaderIconButtonStyle}"
+                            ToolTip="Добавить или убрать из избранного"
+                            Click="ToggleFavorite_Click" />
+                    <Button Content="↑"
+                            Style="{StaticResource HeaderIconButtonStyle}"
+                            ToolTip="Поднять выбранные файлы"
+                            Click="MoveSelectedUp_Click" />
+                    <Button Content="↓"
+                            Style="{StaticResource HeaderIconButtonStyle}"
+                            ToolTip="Опустить выбранные файлы"
+                            Click="MoveSelectedDown_Click" />
+                    <Button Content="Экспорт"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            MinWidth="78"
+                            ToolTip="Экспортировать временные файлы"
+                            Click="ExportTemporary_Click" />
+                    <Button Content="AI"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            MinWidth="68"
+                            ToolTip="AI-разметка выбранных или видимых файлов"
+                            Click="AnalyzeVisibleWithAi_Click" />
+                    <Button Content="AI категории"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            MinWidth="106"
+                            ToolTip="AI-подсказки недостающих категорий"
+                            Click="SuggestCategoriesWithAi_Click" />
+                    <Button Content="Порядок"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            MinWidth="78"
+                            ToolTip="Сохранить порядок вкладок в session.xml"
+                            Click="SaveOrder_Click" />
+                    <Button Content="Отчет"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            MinWidth="62"
+                            ToolTip="Показать отчет"
+                            Click="ShowReport_Click" />
+                    <Button Content="Релиз"
+                            Style="{StaticResource HeaderButtonStyle}"
+                            MinWidth="62"
+                            ToolTip="Проверить релизы на GitHub"
+                            Click="CheckUpdates_Click" />
+                </WrapPanel>
             </Grid>
         </Border>
 
@@ -391,6 +351,29 @@
                                  VerticalAlignment="Center"
                                  Margin="14,0,0,0"
                                  Checked="ViewMode_Checked" />
+                    <StackPanel Grid.Column="4"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Margin="12,0">
+                        <CheckBox x:Name="UnsortedOnlyBox"
+                                  Content="Неразобранные"
+                                  VerticalAlignment="Center"
+                                  Checked="Filter_Changed"
+                                  Unchecked="Filter_Changed" />
+                        <CheckBox x:Name="DuplicatesOnlyBox"
+                                  Content="Дубликаты"
+                                  VerticalAlignment="Center"
+                                  Margin="12,0,0,0"
+                                  Checked="Filter_Changed"
+                                  Unchecked="Filter_Changed" />
+                        <CheckBox x:Name="FavoritesOnlyBox"
+                                  Content="Избранные"
+                                  VerticalAlignment="Center"
+                                  Margin="12,0,0,0"
+                                  Checked="Filter_Changed"
+                                  Unchecked="Filter_Changed" />
+                    </StackPanel>
                     <CheckBox x:Name="TempOnlyBox"
                               Grid.Column="5"
                               Content="Только временные"
@@ -420,9 +403,9 @@
                               Background="#FFFFFF"
                               BorderBrush="#D8DEE6"
                               BorderThickness="1"
-                              SelectionMode="Single"
+                              SelectionMode="Extended"
                               SelectionUnit="FullRow"
-                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Visible"
                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                               RowStyle="{StaticResource RowItemStyle}"
                               AllowDrop="True"
@@ -432,6 +415,12 @@
                               Drop="Items_Drop"
                               SelectionChanged="Items_SelectionChanged">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Header="Флаги"
+                                                Binding="{Binding FlagsText}"
+                                                Width="86" />
+                            <DataGridTextColumn Header="Дубль"
+                                                Binding="{Binding DuplicateText}"
+                                                Width="92" />
                             <DataGridTextColumn Header="Имя"
                                                 Binding="{Binding DisplayName}"
                                                 Width="240" />
@@ -450,7 +439,7 @@
                             <DataGridTextColumn Header="Категория"
                                                 Binding="{Binding CategoryText}"
                                                 Width="140" />
-                            <DataGridTemplateColumn Header="AI тэги"
+                            <DataGridTemplateColumn Header="Тэги"
                                                     Width="220">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -490,7 +479,7 @@
                              BorderThickness="0"
                              Visibility="Collapsed"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             SelectionMode="Single"
+                             SelectionMode="Extended"
                              AllowDrop="True"
                              PreviewMouseLeftButtonDown="DragSource_PreviewMouseLeftButtonDown"
                              MouseMove="DragSource_MouseMove"
@@ -507,9 +496,10 @@
                                 <Border Background="#FFFFFF"
                                         BorderBrush="#D8DEE6"
                                         BorderThickness="1"
-                                        Padding="12">
+                                        Padding="12,12,18,12">
                                     <Grid>
                                         <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="*" />
@@ -542,10 +532,18 @@
                                             <TextBlock Text="{Binding CategoryText}"
                                                        Foreground="#697789"
                                                        Margin="12,0,0,0" />
+                                            <TextBlock Text="{Binding FlagsText}"
+                                                       Foreground="#8A5B00"
+                                                       Margin="12,0,0,0" />
+                                            <TextBlock Text="{Binding DuplicateText}"
+                                                       Foreground="#B42318"
+                                                       Margin="12,0,0,0" />
                                         </StackPanel>
                                         <ItemsControl Grid.Row="2"
                                                       ItemsSource="{Binding Tags}"
-                                                      Margin="0,8,0,0">
+                                                      Margin="0,8,0,0"
+                                                      MaxHeight="40"
+                                                      ClipToBounds="True">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <WrapPanel />
@@ -554,24 +552,27 @@
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Border Background="{Binding Color}"
-                                                            Padding="6,2"
-                                                            Margin="0,0,4,4">
+                                                            Padding="5,1"
+                                                            Margin="0,0,4,3">
                                                         <TextBlock Text="{Binding Name}"
                                                                    Foreground="#FFFFFF"
-                                                                   FontSize="11" />
+                                                                   FontSize="10"
+                                                                   MaxWidth="116"
+                                                                   TextTrimming="CharacterEllipsis" />
                                                     </Border>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
-                                        <TextBlock Grid.Row="2"
+                                        <TextBlock Grid.Row="3"
                                                    Text="{Binding PreviewText}"
                                                    FontFamily="Consolas"
                                                    FontSize="12"
                                                    Foreground="#3B4654"
                                                    TextWrapping="Wrap"
                                                    TextTrimming="CharacterEllipsis"
-                                                   Margin="0,34,0,0" />
-                                        <TextBlock Grid.Row="3"
+                                                   ClipToBounds="True"
+                                                   Margin="0,6,0,0" />
+                                        <TextBlock Grid.Row="4"
                                                    Text="{Binding ModifiedText}"
                                                    Foreground="#697789"
                                                    FontSize="12"
@@ -686,6 +687,16 @@
                                                                                 Margin="8,0,0,0"
                                                                                 Padding="6,0"
                                                                                 Click="RenameFile_Click" />
+                                                                        <StackPanel DockPanel.Dock="Left"
+                                                                                    Orientation="Horizontal"
+                                                                                    VerticalAlignment="Center">
+                                                                            <TextBlock Text="{Binding FlagsText}"
+                                                                                       Foreground="#8A5B00"
+                                                                                       Margin="0,0,8,0" />
+                                                                            <TextBlock Text="{Binding DuplicateText}"
+                                                                                       Foreground="#B42318"
+                                                                                       Margin="0,0,8,0" />
+                                                                        </StackPanel>
                                                                         <TextBlock Text="{Binding DisplayName}"
                                                                                    Foreground="#26313F"
                                                                                    VerticalAlignment="Center"
@@ -740,7 +751,7 @@
                                     Style="{StaticResource ToolbarButtonStyle}"
                                     MinWidth="142"
                                     Click="ConvertToTemporary_Click" />
-                            <Button Content="AI summary"
+                            <Button Content="AI описание"
                                     Style="{StaticResource ToolbarButtonStyle}"
                                     Click="Summarize_Click" />
                             <Button Content="Переим."

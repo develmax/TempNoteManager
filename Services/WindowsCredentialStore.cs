@@ -19,7 +19,7 @@ public sealed class WindowsCredentialStore
 
     public void SaveApiKey(string apiKey)
     {
-        SaveSecret(AiApiKeyTargetName, apiKey, "TempNoteManager AI API key");
+        SaveSecret(AiApiKeyTargetName, apiKey, "AI-ключ TempNoteManager");
     }
 
     public void DeleteApiKey()
